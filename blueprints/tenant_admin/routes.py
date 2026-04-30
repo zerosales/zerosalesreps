@@ -395,14 +395,23 @@ def stripe_callback():
 
     try:
         stripe.api_key = current_app.config["STRIPE_SECRET_KEY"]
+        # stripe-python v7+ returns an OAuthToken object; fall back to dict access
         response = stripe.OAuth.token(grant_type="authorization_code", code=code)
-        tenant.stripe_account_id     = response["stripe_user_id"]
+        stripe_user_id = (
+            response.stripe_user_id
+            if hasattr(response, "stripe_user_id")
+            else response["stripe_user_id"]
+        )
+        tenant.stripe_account_id     = stripe_user_id
         tenant.stripe_connect_status = "connected"
         db.session.commit()
         flash("Stripe account connected successfully!", "success")
+    except stripe.oauth_error.OAuthError as exc:
+        log.error("Stripe OAuth error: %s", exc)
+        flash(f"Stripe Connect error: {exc.user_message or str(exc)}", "danger")
     except Exception as exc:
         log.error("Stripe Connect callback error: %s", exc)
-        flash("Failed to connect Stripe account.", "danger")
+        flash("Failed to connect Stripe account. Please try again.", "danger")
 
     return redirect(url_for("tenant_admin.settings"))
 

@@ -193,9 +193,10 @@ def checkout():
     )
     # Platform fee via Stripe Connect (if tenant has connected account)
     if stripe_account:
-        fee_pct = tenant.platform_fee_pct or current_app.config.get("PLATFORM_FEE_PCT", 5.0)
+        fee_pct = float(tenant.platform_fee_pct or current_app.config.get("PLATFORM_FEE_PCT", 5.0))
         kwargs["stripe_account"] = stripe_account
-        kwargs["payment_intent_data"] = {
+        # subscription mode requires application_fee_percent in subscription_data
+        kwargs["subscription_data"] = {
             "application_fee_percent": fee_pct,
         }
 
