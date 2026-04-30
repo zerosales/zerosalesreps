@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>All Tenants</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    body{background:#0f172a;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif}
+    .sidebar{width:220px;min-height:100vh;background:#1e293b}
+    .sidebar .nav-link{color:#94a3b8;padding:.6rem 1.2rem;border-radius:6px}
+    .sidebar .nav-link:hover,.sidebar .nav-link.active{color:#fff;background:#334155}
+    .card-dark{background:#1e293b;border:none;border-radius:12px}
+    .table{--bs-table-bg:transparent;--bs-table-color:#cbd5e1}
+    .table thead{color:#64748b}
+    .badge-active{background:#dcfce7;color:#15803d}
+    .badge-suspended{background:#fee2e2;color:#991b1b}
+    .badge-trial{background:#fef3c7;color:#b45309}
+    .badge-cancelled{background:#f3f4f6;color:#6b7280}
+  </style>
+</head>
+<body>
+<div class="d-flex">
+  <div class="sidebar d-flex flex-column p-3 gap-1">
+    <div class="fw-bold text-white mb-4 px-2 fs-5">⚡ SuperAdmin</div>
+    <a href="/superadmin/" class="nav-link"><i class="bi bi-grid me-2"></i>Overview</a>
+    <a href="/superadmin/tenants" class="nav-link active"><i class="bi bi-buildings me-2"></i>Tenants</a>
+    <a href="/superadmin/tenant/new" class="nav-link"><i class="bi bi-plus-circle me-2"></i>New Tenant</a>
+    <div class="mt-auto">
+      <a href="/superadmin/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
+    </div>
+  </div>
+
+  <div class="flex-grow-1 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="fw-bold mb-0 text-white">All Tenants</h4>
+      <a href="/superadmin/tenant/new" class="btn btn-primary btn-sm"><i class="bi bi-plus me-1"></i>New Tenant</a>
+    </div>
+
+    <!-- Filters -->
+    <form class="d-flex gap-2 mb-4" method="GET">
+      <input type="text" name="q" value="{{ q or '' }}" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="Search slug..." style="max-width:200px"/>
+      <select name="status" class="form-select form-select-sm bg-dark text-white border-secondary" style="max-width:150px">
+        <option value="">All statuses</option>
+        {% for s in ['active','suspended','trial','cancelled'] %}
+        <option {% if status_filter==s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+      <button class="btn btn-outline-secondary btn-sm">Filter</button>
+    </form>
+
+    <div class="card-dark p-4">
+      <table class="table table-sm align-middle">
+        <thead><tr><th>Slug / Name</th><th>Status</th><th>Plan</th><th>Leads</th><th>Customers</th><th>Fee%</th><th>Created</th><th></th></tr></thead>
+        <tbody class="small">
+          {% for t in tenants %}
+          <tr>
+            <td>
+              <a href="/superadmin/tenant/{{ t.id }}" class="text-info fw-semibold text-decoration-none">{{ t.slug }}</a>
+              {% if t.name != t.slug %}<div class="text-muted small">{{ t.name }}</div>{% endif %}
+            </td>
+            <td><span class="badge badge-{{ t.status }} px-2 py-1 rounded-pill">{{ t.status }}</span></td>
+            <td>{{ t.platform_plan }}</td>
+            <td>{{ counts.get(t.id, 0) }}</td>
+            <td>{{ customer_counts.get(t.id, 0) }}</td>
+            <td>{{ t.platform_fee_pct }}%</td>
+            <td class="text-muted">{{ t.created_at.strftime('%b %d, %Y') if t.created_at }}</td>
+            <td><a href="/superadmin/tenant/{{ t.id }}" class="btn btn-outline-secondary btn-sm py-0">View</a></td>
+          </tr>
+          {% else %}
+          <tr><td colspan="8" class="text-center text-muted">No tenants found</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

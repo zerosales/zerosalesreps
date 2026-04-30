@@ -1,0 +1,33 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}One month with {{ config.name }} — how are you doing?{% endblock %}
+{% block body %}
+<h2>One month in, {{ lead.first_name or 'there' }} — let's take stock</h2>
+
+<p>You've been a {{ config.name }} subscriber for a month now. That's a real milestone — and we want to make sure you're getting everything possible from it.</p>
+
+<p><strong>A quick self-check:</strong></p>
+<p>
+  ✅ Is {{ config.pain_point }} less of a problem than it was 30 days ago?<br/>
+  ✅ Have you used the key features that made you sign up?<br/>
+  ✅ Do you have questions you haven't gotten answers to yet?
+</p>
+
+<div class="feature-box">
+  <strong>If you answered "no" to any of those:</strong><br/>
+  Reply to this email. Seriously — we want to fix it. Our goal is for you to feel like {{ config.name }} is one of the best decisions you made this year.
+</div>
+
+<p>And if everything's going great — that's wonderful. Here's what to do next:</p>
+<p>
+  → Refer someone who'd benefit (we love word-of-mouth customers)<br/>
+  → Leave us a review if you haven't already<br/>
+  → Explore any features you haven't tried yet
+</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Open My Dashboard →</a>
+</div>
+
+<p>Thank you for being a customer. It means everything to us.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

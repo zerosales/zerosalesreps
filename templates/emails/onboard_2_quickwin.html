@@ -1,0 +1,26 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Your first quick win with {{ config.name }}{% endblock %}
+{% block body %}
+<h2>Let's get your first win today, {{ lead.first_name or 'there' }}</h2>
+
+<p>The fastest way to feel great about {{ config.name }} is to get a result quickly. Here's a 5-minute exercise that our most successful users do in their first week:</p>
+
+<div class="feature-box">
+  <strong>The 5-Minute Quick Win:</strong><br/>
+  1. Open your dashboard<br/>
+  2. Find the main feature you signed up for<br/>
+  3. Apply it to one real task you've been putting off<br/>
+  4. Watch {{ config.name }} handle the {{ config.pain_point }} part automatically<br/>
+  <br/>
+  That's it. Five minutes. One real result.
+</div>
+
+<p>Most users who do this on day 3 end up using {{ config.name }} every single day from that point on. The habit forms when you see it work on something real.</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Get My Quick Win →</a>
+</div>
+
+<p>Hit reply and tell me what you accomplished — I'd love to hear.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}You're not alone — meet other {{ config.name }} users{% endblock %}
+{% block body %}
+<h2>The community behind {{ config.name }}, {{ lead.first_name or 'there' }}</h2>
+
+<p>One thing our users always appreciate: they're not doing this alone. Thousands of people just like you are using {{ config.name }} to solve {{ config.pain_point }} every day.</p>
+
+<div class="feature-box">
+  <strong>What the {{ config.name }} community looks like:</strong><br/>
+  → People who were tired of {{ config.pain_point }} slowing them down<br/>
+  → Busy professionals who needed automation, not more manual work<br/>
+  → Smart operators who found a better way and never looked back
+</div>
+
+<p>Here's what they'd tell you:</p>
+
+{% if config.testimonials %}
+{% for t in config.testimonials %}
+<div class="feature-box">
+  <em>"{{ t.text }}"</em><br/>
+  <strong>— {{ t.name }}{% if t.location %}, {{ t.location }}{% endif %}</strong>
+</div>
+{% endfor %}
+{% else %}
+<div class="feature-box">
+  <em>"I recommended {{ config.name }} to my entire team. It just works."</em><br/>
+  <strong>— A power user</strong>
+</div>
+{% endif %}
+
+<p>Have your own success story? Hit reply and share it — we might feature you (with your permission, of course).</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Share My Feedback →</a>
+</div>
+
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Your free trial is ready — claim it today{% endblock %}
+{% block body %}
+<h2>Ready when you are, {{ lead.first_name or 'there' }}</h2>
+
+<p>You've been on our list for a few days now. You've seen what {{ config.name }} can do. Now it's time to experience it yourself.</p>
+
+<p>Your free trial includes everything — no watered-down "freemium" version. Full access. Full features. Zero risk.</p>
+
+<p><strong>What you get in your trial:</strong></p>
+<p>
+  ✅ Full platform access<br/>
+  ✅ All core features unlocked<br/>
+  ✅ No credit card required<br/>
+  ✅ Cancel anytime with one click<br/>
+  ✅ Direct support if you need help
+</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Claim My Free Trial →</a>
+</div>
+
+<p>The only way to know if {{ config.name }} is right for you is to try it. And trying it is free.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

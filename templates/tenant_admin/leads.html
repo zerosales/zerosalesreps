@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Leads — {{ tenant.name }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    :root{--primary:{{ tenant.get_config('primary_color','#4F46E5') }}}
+    body{background:#f8f9fa;font-family:'Segoe UI',system-ui,sans-serif}
+    .sidebar{width:220px;min-height:100vh;background:#1e293b}
+    .sidebar .nav-link{color:#94a3b8;padding:.6rem 1.2rem;border-radius:6px}
+    .sidebar .nav-link:hover,.sidebar .nav-link.active{color:#fff;background:#334155}
+    .badge-new{background:#dbeafe;color:#1d4ed8}
+    .badge-nurturing{background:#fef3c7;color:#b45309}
+    .badge-trial{background:#d1fae5;color:#065f46}
+    .badge-customer{background:#dcfce7;color:#15803d}
+    .badge-churned{background:#fee2e2;color:#991b1b}
+    .badge-expired{background:#f3f4f6;color:#6b7280}
+  </style>
+</head>
+<body>
+<div class="d-flex">
+  <div class="sidebar d-flex flex-column p-3 gap-1">
+    <div class="fw-bold text-white mb-4 px-2">⚡ {{ tenant.name }}</div>
+    <a href="/dashboard/" class="nav-link"><i class="bi bi-grid me-2"></i>Overview</a>
+    <a href="/dashboard/leads" class="nav-link active"><i class="bi bi-people me-2"></i>Leads</a>
+    <a href="/dashboard/sequences" class="nav-link"><i class="bi bi-envelope me-2"></i>Sequences</a>
+    <a href="/dashboard/export" class="nav-link"><i class="bi bi-download me-2"></i>Export CSV</a>
+    <a href="/dashboard/settings" class="nav-link"><i class="bi bi-gear me-2"></i>Settings</a>
+    <div class="mt-auto">
+      <a href="/dashboard/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
+    </div>
+  </div>
+  <div class="flex-grow-1 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="fw-bold mb-0">All Leads</h4>
+      <a href="/dashboard/export" class="btn btn-outline-secondary btn-sm"><i class="bi bi-download me-1"></i>Export</a>
+    </div>
+
+    <form class="d-flex gap-2 mb-4" method="GET">
+      <input type="text" name="q" value="{{ q or '' }}" class="form-control form-control-sm" placeholder="Search email..." style="max-width:200px"/>
+      <select name="status" class="form-select form-select-sm" style="max-width:140px">
+        <option value="">All statuses</option>
+        {% for s in statuses %}<option {% if status_filter==s %}selected{% endif %}>{{ s }}</option>{% endfor %}
+      </select>
+      <select name="seq" class="form-select form-select-sm" style="max-width:150px">
+        <option value="">All sequences</option>
+        {% for s in sequences %}<option {% if seq_filter==s %}selected{% endif %}>{{ s }}</option>{% endfor %}
+      </select>
+      <button class="btn btn-outline-secondary btn-sm">Filter</button>
+    </form>
+
+    <div class="card shadow-sm">
+      <div class="table-responsive">
+        <table class="table table-hover table-sm align-middle mb-0">
+          <thead class="text-muted small bg-light"><tr><th>Email</th><th>Name</th><th>Status</th><th>Sequence</th><th>Emails</th><th>Opens</th><th>Joined</th></tr></thead>
+          <tbody class="small">
+            {% for lead in leads %}
+            <tr style="cursor:pointer" onclick="location.href='/dashboard/lead/{{ lead.id }}'">
+              <td class="fw-semibold">{{ lead.email }}</td>
+              <td class="text-muted">{{ lead.full_name if lead.first_name else '—' }}</td>
+              <td><span class="badge badge-{{ lead.status }} px-2 py-1 rounded-pill">{{ lead.status }}</span></td>
+              <td class="text-muted">{{ lead.sequence_name }} / {{ lead.sequence_step }}</td>
+              <td>{{ lead.emails_sent }}</td>
+              <td>{{ lead.emails_opened }}</td>
+              <td class="text-muted">{{ lead.created_at.strftime('%b %d, %Y') if lead.created_at }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7" class="text-center text-muted py-4">No leads found</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

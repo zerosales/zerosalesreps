@@ -1,0 +1,26 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Quick tip: the one feature that makes the biggest difference{% endblock %}
+{% block body %}
+<h2>The feature everyone misses first, {{ lead.first_name or 'there' }}</h2>
+
+<p>You're a few days into your {{ config.name }} trial. Here's a tip from our power users:</p>
+
+<div class="feature-box">
+  <strong>💡 Power Tip:</strong> Don't just set it and forget it — take 2 minutes to customize your settings for your specific situation. Users who do this see 3× better results in the first week.
+</div>
+
+{% if config.features %}
+<p><strong>While you're in there, make sure you've explored:</strong></p>
+{% for f in config.features %}
+<p>→ <strong>{{ f.title }}</strong>: {{ f.description }}</p>
+{% endfor %}
+{% endif %}
+
+<p>The goal of your trial is simple: prove to yourself that {{ config.name }} solves {{ config.pain_point }} better than anything else you've tried. This tip will help you get there faster.</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Open My Dashboard →</a>
+</div>
+
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

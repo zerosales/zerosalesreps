@@ -1,0 +1,25 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Welcome to {{ config.name }} — here's what happens next{% endblock %}
+{% block body %}
+<h2>Welcome aboard, {{ lead.first_name or 'there' }}! 🎉</h2>
+<p>Thanks for signing up for <span class="highlight">{{ config.name }}</span>. You've just made a smart move.</p>
+
+<div class="feature-box">
+  <strong>The problem you're solving:</strong><br/>
+  Every day you're dealing with <em>{{ config.pain_point }}</em> — and most people just accept that. You didn't. That's why you're here.
+</div>
+
+<p>Here's what you can expect over the next few days:</p>
+<p>
+  ✅ We'll show you exactly how {{ config.name }} works<br/>
+  ✅ You'll see real examples from people just like you<br/>
+  ✅ You'll get a free trial so you can see results before paying a cent
+</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Explore {{ config.name }} →</a>
+</div>
+
+<p>If you have any questions at all, just reply to this email. We read every one.</p>
+<p>Talk soon,<br/><strong>The {{ config.name }} Team</strong></p>
+{% endblock %}

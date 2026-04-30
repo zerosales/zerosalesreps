@@ -1,0 +1,27 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}One last note before I go quiet{% endblock %}
+{% block body %}
+<h2>Closing the loop, {{ lead.first_name or 'there' }}</h2>
+
+<p>I've reached out a couple of times since you went quiet on {{ config.name }}. I don't want to keep emailing you if it's not useful.</p>
+
+<p>So here's my last ask: <strong>one of two things.</strong></p>
+
+<p><strong>Option A — Come back:</strong><br/>
+If {{ config.pain_point }} is still something you want solved, log back in. Your account is waiting. It'll take 2 minutes to pick up where you left off.</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Reactivate My Account →</a>
+</div>
+
+<p><strong>Option B — Tell me why:</strong><br/>
+Hit reply and tell me the real reason you stopped using {{ config.name }}. Was it the price? Didn't solve the problem? Something broke? Your feedback directly shapes what we build next — and it takes 30 seconds.</p>
+
+<hr class="divider"/>
+
+<p>If I don't hear from you, I'll stop the check-ins. You'll only hear from us again if there's something truly new and worth your attention.</p>
+
+<p>Whatever you decide — thank you for giving {{ config.name }} a try. I hope you find the solution to {{ config.pain_point }} that works for you, whether it's us or something else.</p>
+
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

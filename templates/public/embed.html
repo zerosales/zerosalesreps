@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ tenant.name }}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #ffffff;
+      padding: 24px 20px;
+      color: #1e293b;
+    }
+    h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    p.sub { font-size: 13px; color: #64748b; margin-bottom: 18px; }
+    .row { display: flex; gap: 8px; margin-bottom: 10px; }
+    input {
+      display: block; width: 100%; padding: 10px 12px;
+      border: 1.5px solid #e2e8f0; border-radius: 8px;
+      font-size: 14px; outline: none; font-family: inherit;
+    }
+    input:focus { border-color: {{ tenant.get_config('primary_color', '#4F46E5') }}; }
+    .btn {
+      display: block; width: 100%; padding: 12px;
+      background: {{ tenant.get_config('primary_color', '#4F46E5') }};
+      color: #fff; border: none; border-radius: 8px;
+      font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 4px;
+    }
+    .btn:hover { filter: brightness(.9); }
+    .fine { text-align: center; font-size: 11px; color: #94a3b8; margin-top: 10px; }
+    .logo { margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  {% if tenant.get_config('logo_url') %}
+  <div class="logo"><img src="{{ tenant.get_config('logo_url') }}" height="32" alt="{{ tenant.name }}"/></div>
+  {% endif %}
+  <h3>Try {{ tenant.name }} Free</h3>
+  <p class="sub">{{ tenant.get_config('tagline', 'Get started — no credit card needed') }}</p>
+  <form action="{{ base_url }}/signup" method="POST">
+    <input type="hidden" name="tool" value="{{ tenant.slug }}"/>
+    <input type="hidden" name="source" value="embed"/>
+    <div class="row">
+      <input name="first_name" placeholder="First name"/>
+      <input name="last_name"  placeholder="Last name"/>
+    </div>
+    <input type="email" name="email" placeholder="Your email address" required style="margin-bottom:10px"/>
+    <button type="submit" class="btn">Get Free Access →</button>
+  </form>
+  <p class="fine">No credit card · Unsubscribe anytime</p>
+</body>
+</html>

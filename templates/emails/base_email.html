@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block subject %}Email{% endblock %}</title>
+  <style>
+    body { margin:0; padding:0; background:#f4f4f5; font-family:'Segoe UI',Arial,sans-serif; }
+    .wrapper { max-width:600px; margin:0 auto; padding:24px 16px; }
+    .card { background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+    .header { background:{{ config.primary_color or '#4F46E5' }}; padding:28px 32px; text-align:center; }
+    .header .logo { color:#ffffff; font-size:22px; font-weight:700; text-decoration:none; }
+    .body { padding:32px; color:#1e293b; font-size:15px; line-height:1.7; }
+    .body h2 { margin:0 0 16px; font-size:22px; font-weight:700; color:#0f172a; }
+    .body p { margin:0 0 16px; }
+    .cta-btn {
+      display:inline-block; padding:14px 32px; border-radius:8px;
+      background:{{ config.primary_color or '#4F46E5' }}; color:#ffffff !important;
+      font-weight:600; font-size:15px; text-decoration:none; margin:8px 0;
+    }
+    .cta-wrap { text-align:center; margin:24px 0; }
+    .divider { border:none; border-top:1px solid #e2e8f0; margin:24px 0; }
+    .feature-box { background:#f8fafc; border-radius:8px; padding:16px 20px; margin:16px 0; border-left:4px solid {{ config.primary_color or '#4F46E5' }}; }
+    .footer { text-align:center; padding:20px 32px 24px; font-size:12px; color:#94a3b8; }
+    .footer a { color:#94a3b8; text-decoration:underline; }
+    .highlight { color:{{ config.primary_color or '#4F46E5' }}; font-weight:600; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="card">
+
+    <!-- Header -->
+    <div class="header">
+      {% if config.logo_url %}
+        <img src="{{ config.logo_url }}" height="36" alt="{{ config.name }}" style="display:block;margin:0 auto"/>
+      {% else %}
+        <span class="logo">{{ config.name }}</span>
+      {% endif %}
+    </div>
+
+    <!-- Body -->
+    <div class="body">
+      {% block body %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <hr style="border:none;border-top:1px solid #e2e8f0;margin:0 0 16px"/>
+      You're receiving this because you signed up at {{ config.name }}.<br/>
+      <a href="{{ unsubscribe_url }}">Unsubscribe</a> &nbsp;·&nbsp;
+      &copy; {{ config.company }}
+      {% if open_pixel_url %}
+        <img src="{{ open_pixel_url }}" width="1" height="1" alt="" style="display:block;width:1px;height:1px;opacity:0"/>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

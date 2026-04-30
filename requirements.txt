@@ -1,0 +1,11 @@
+flask>=3.0.0
+flask-sqlalchemy>=3.1.0
+flask-login>=0.6.3
+apscheduler>=3.10.4
+sendgrid>=6.11.0
+stripe>=7.0.0
+python-dotenv>=1.0.0
+werkzeug>=3.0.0
+email-validator>=2.1.0
+gunicorn>=21.2.0
+psycopg2-binary>=2.9.9

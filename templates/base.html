@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}Platform{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    {% if config is defined and config.primary_color is defined %}
+    :root { --primary: {{ config.primary_color }}; }
+    {% else %}
+    :root { --primary: #4F46E5; }
+    {% endif %}
+    .btn-primary  { background-color:var(--primary)!important; border-color:var(--primary)!important; }
+    .btn-primary:hover { filter:brightness(.9); }
+    .text-primary { color:var(--primary)!important; }
+    .bg-primary   { background-color:var(--primary)!important; }
+    body { font-family:'Segoe UI',system-ui,sans-serif; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

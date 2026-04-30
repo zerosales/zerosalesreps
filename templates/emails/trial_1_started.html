@@ -1,0 +1,24 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Your {{ config.name }} trial has started — let's get you set up{% endblock %}
+{% block body %}
+<h2>Your trial is live, {{ lead.first_name or 'there' }}! 🚀</h2>
+
+<p>Welcome to your {{ config.name }} free trial. You now have full access — let's make sure you get the most out of it.</p>
+
+<p><strong>Step 1: Log in and explore</strong><br/>
+Your account is ready. Head to the dashboard and take 5 minutes to click around.</p>
+
+<p><strong>Step 2: Set up your first project</strong><br/>
+Follow the quick-start guide inside the app. Most users have their first result within 30 minutes.</p>
+
+<p><strong>Step 3: See results</strong><br/>
+Watch {{ config.name }} work on your behalf — automatically handling {{ config.pain_point }} so you don't have to.</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Go to My Dashboard →</a>
+</div>
+
+<p>Over the next few days I'll send tips to help you get the most from your trial. Watch your inbox.</p>
+<p>Have questions? Just reply — we're here.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

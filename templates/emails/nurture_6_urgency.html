@@ -1,0 +1,22 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Last reminder: your {{ config.name }} access is waiting{% endblock %}
+{% block body %}
+<h2>Don't let {{ config.pain_point }} keep winning, {{ lead.first_name or 'there' }}</h2>
+
+<p>I've sent you a few emails over the past couple weeks. I don't want to be a bother — but I also don't want you to miss out on something that could genuinely help you.</p>
+
+<p>Here's the honest truth:</p>
+
+<div class="feature-box">
+  Every week you wait is another week that <strong>{{ config.pain_point }}</strong> costs you time, money, and energy. {{ config.name }} exists specifically to fix that — and it takes less than 10 minutes to get started.
+</div>
+
+<p>The trial is still free. Still no credit card. Still full access.</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Start Free — Takes 10 Minutes →</a>
+</div>
+
+<p>If this isn't the right time, no worries. But if it is — let's get you started today.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

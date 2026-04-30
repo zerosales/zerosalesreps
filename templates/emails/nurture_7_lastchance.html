@@ -1,0 +1,24 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}This is my last email (unless you want more){% endblock %}
+{% block body %}
+<h2>My last note to you, {{ lead.first_name or 'there' }}</h2>
+
+<p>I've reached out a few times about {{ config.name }} and I don't want to fill your inbox if it's not for you.</p>
+
+<p>So this is the last email in this series — unless you decide to take the free trial.</p>
+
+<p>If now isn't the right time: no hard feelings. You can stay on the list and we'll only email you when there's something genuinely new or useful.</p>
+
+<p>But if you've been thinking about it and just haven't pulled the trigger — this is the nudge:</p>
+
+<div class="feature-box">
+  <strong>{{ config.name }}</strong> is the fastest way to stop {{ config.pain_point }} from costing you more than it should. Free trial. No card. Cancel anytime.
+</div>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Try It One Last Time →</a>
+</div>
+
+<p>Whatever you decide — I hope {{ config.pain_point }} becomes the least of your worries soon.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

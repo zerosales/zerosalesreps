@@ -1,0 +1,34 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}What others are saying about {{ config.name }}{% endblock %}
+{% block body %}
+<h2>Don't take our word for it, {{ lead.first_name or 'there' }}</h2>
+
+<p>We know it can feel risky to try something new. So instead of us telling you why {{ config.name }} is worth it — let's hear from people who've actually used it.</p>
+
+{% if config.testimonials %}
+{% for t in config.testimonials %}
+<div class="feature-box">
+  <em>"{{ t.text }}"</em><br/>
+  <strong>— {{ t.name }}{% if t.location %}, {{ t.location }}{% endif %}</strong>
+</div>
+{% endfor %}
+{% else %}
+<div class="feature-box">
+  <em>"{{ config.name }} saved me hours every week. I can't imagine going back to the old way."</em><br/>
+  <strong>— A satisfied user</strong>
+</div>
+<div class="feature-box">
+  <em>"The setup took less than 10 minutes and it was working the same day. Incredible."</em><br/>
+  <strong>— Another happy customer</strong>
+</div>
+{% endif %}
+
+<p>Join thousands of users who made the switch. Your free trial is waiting.</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Start Your Free Trial →</a>
+</div>
+
+<p>No credit card needed. No commitment.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

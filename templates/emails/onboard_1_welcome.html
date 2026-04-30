@@ -1,0 +1,27 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Welcome to {{ config.name }} — you're officially a customer 🎉{% endblock %}
+{% block body %}
+<h2>You're in, {{ lead.first_name or 'there' }}! Welcome to the family.</h2>
+
+<p>Your subscription is active and {{ config.name }} is working for you right now. Here's everything you need to know to get the most out of it from day one.</p>
+
+<p><strong>Your Quick-Start Checklist:</strong></p>
+<p>
+  ☐ Log in and confirm your dashboard is set up correctly<br/>
+  ☐ Review your settings and personalize for your use case<br/>
+  ☐ Run your first task or project<br/>
+  ☐ Bookmark your dashboard URL for easy access
+</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Go to My Dashboard →</a>
+</div>
+
+<div class="feature-box">
+  <strong>Need help?</strong><br/>
+  Just reply to this email or use the support chat inside the app. Our team is real people who respond fast — usually within a few hours.
+</div>
+
+<p>Over the next few weeks I'll check in with tips to help you get even more value from {{ config.name }}. Keep an eye out.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

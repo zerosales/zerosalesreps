@@ -1,0 +1,31 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}A lot has changed at {{ config.name }} — come see{% endblock %}
+{% block body %}
+<h2>{{ config.name }} keeps getting better, {{ lead.first_name or 'there' }}</h2>
+
+<p>Since you last logged in, we've been busy. Here's what's improved:</p>
+
+<div class="feature-box">
+  <strong>🔧 Performance & Speed</strong><br/>
+  Faster load times, smarter processing. What used to take minutes now takes seconds.
+</div>
+
+<div class="feature-box">
+  <strong>📊 Better Reporting</strong><br/>
+  New dashboard views that give you clearer insight into how {{ config.name }} is handling {{ config.pain_point }} for you.
+</div>
+
+<div class="feature-box">
+  <strong>🤖 Smarter Automation</strong><br/>
+  Improved automatic rules that catch more edge cases — less manual intervention needed.
+</div>
+
+<p>We're building {{ config.name }} based on feedback from users like you. Your account hasn't changed — it's just gotten more powerful.</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">See What's New →</a>
+</div>
+
+<p>Would love to have you back actively using it. If something held you back before, hit reply and let's talk.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

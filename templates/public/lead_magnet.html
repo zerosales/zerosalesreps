@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}{{ magnet.title }} — Free from {{ config.name }}{% endblock %}
+{% block body %}
+<nav class="navbar navbar-light bg-white border-bottom py-3">
+  <div class="container">
+    {% if config.logo_url %}
+      <img src="{{ config.logo_url }}" height="36" alt="{{ config.name }}"/>
+    {% else %}
+      <span class="navbar-brand fw-bold fs-4">{{ config.name }}</span>
+    {% endif %}
+  </div>
+</nav>
+
+<section class="py-5">
+  <div class="container py-3">
+    <div class="row align-items-center g-5 justify-content-center">
+
+      <!-- Left: copy -->
+      <div class="col-lg-5">
+        {% if magnet.image_url %}
+          <img src="{{ magnet.image_url }}" class="img-fluid rounded shadow-sm mb-4" alt="{{ magnet.title }}" style="max-height:280px"/>
+        {% else %}
+          <div class="bg-light rounded d-flex align-items-center justify-content-center mb-4" style="height:200px;font-size:72px">📄</div>
+        {% endif %}
+        <h1 class="fw-bold display-6 mb-3">{{ magnet.title }}</h1>
+        <p class="lead text-muted">{{ magnet.description or 'Download your free resource instantly.' }}</p>
+        {% if magnet.bullets %}
+        <ul class="mt-3">
+          {% for bullet in magnet.bullets %}
+          <li class="mb-1">✅ {{ bullet }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+
+      <!-- Right: form -->
+      <div class="col-lg-4">
+        <div class="card shadow p-4" style="border-radius:14px">
+          <h4 class="fw-bold mb-1">Get it free</h4>
+          <p class="text-muted small mb-4">Enter your email and we'll send it instantly.</p>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for cat, msg in messages %}
+              <div class="alert alert-{{ 'danger' if cat=='error' else cat }} py-2 small">{{ msg }}</div>
+            {% endfor %}
+          {% endwith %}
+          <form action="/free/signup" method="POST">
+            <input type="hidden" name="tool" value="{{ tool }}"/>
+            <div class="mb-3">
+              <input class="form-control" name="first_name" placeholder="First name"/>
+            </div>
+            <div class="mb-3">
+              <input class="form-control" type="email" name="email" placeholder="Your email address" required/>
+            </div>
+            <button class="btn btn-primary w-100 py-2 fw-semibold" type="submit">
+              {{ magnet.button_text or 'Send Me the Free Download →' }}
+            </button>
+          </form>
+          <p class="text-muted small text-center mt-3 mb-0">We respect your privacy. Unsubscribe anytime.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="py-4 text-center text-muted small bg-light border-top">
+  &copy; {{ config.company }} ·
+  <a href="/unsubscribe/na" class="text-muted">Unsubscribe</a>
+</footer>
+{% endblock %}

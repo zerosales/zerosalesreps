@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Platform Overview</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    body{background:#0f172a;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif}
+    .sidebar{width:220px;min-height:100vh;background:#1e293b}
+    .sidebar .nav-link{color:#94a3b8;padding:.6rem 1.2rem;border-radius:6px}
+    .sidebar .nav-link:hover,.sidebar .nav-link.active{color:#fff;background:#334155}
+    .main{background:#0f172a}
+    .stat-card{background:#1e293b;border:none;border-radius:12px}
+    .stat-card .val{font-size:2rem;font-weight:700;color:#f1f5f9}
+    .stat-card .lbl{font-size:.75rem;color:#64748b;text-transform:uppercase;letter-spacing:.06em}
+    .table{--bs-table-bg:transparent;--bs-table-color:#cbd5e1}
+    .table thead{color:#64748b}
+    .badge-active{background:#dcfce7;color:#15803d}
+    .badge-suspended{background:#fee2e2;color:#991b1b}
+    .badge-trial{background:#fef3c7;color:#b45309}
+  </style>
+</head>
+<body>
+<div class="d-flex">
+  <!-- Sidebar -->
+  <div class="sidebar d-flex flex-column p-3 gap-1">
+    <div class="fw-bold text-white mb-4 px-2 fs-5">⚡ SuperAdmin</div>
+    <a href="/superadmin/" class="nav-link active"><i class="bi bi-grid me-2"></i>Overview</a>
+    <a href="/superadmin/tenants" class="nav-link"><i class="bi bi-buildings me-2"></i>Tenants</a>
+    <a href="/superadmin/tenant/new" class="nav-link"><i class="bi bi-plus-circle me-2"></i>New Tenant</a>
+    <div class="mt-auto">
+      <a href="/superadmin/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="flex-grow-1 p-4 main">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="fw-bold mb-0 text-white">Platform Overview</h4>
+      <a href="/superadmin/tenant/new" class="btn btn-primary btn-sm">
+        <i class="bi bi-plus me-1"></i>Add Tenant
+      </a>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="row g-3 mb-4">
+      {% set kpis = [
+        ('Active Tenants',   active_tenants,  'bi-buildings',       '#3b82f6'),
+        ('Total Tenants',    total_tenants,   'bi-building',        '#8b5cf6'),
+        ('Total Leads',      total_leads,     'bi-people',          '#f59e0b'),
+        ('Customers',        total_customers, 'bi-star-fill',       '#10b981'),
+        ('Platform Revenue', '$'~(platform_mrr|round(2)), 'bi-currency-dollar', '#06b6d4'),
+        ('Emails This Week', emails_week,     'bi-envelope',        '#f43f5e'),
+      ] %}
+      {% for lbl, val, icon, color in kpis %}
+      <div class="col-6 col-lg-4 col-xl-2">
+        <div class="stat-card p-3">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <div class="lbl">{{ lbl }}</div>
+              <div class="val">{{ val }}</div>
+            </div>
+            <i class="bi {{ icon }} fs-3" style="color:{{ color }}"></i>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="row g-3 mb-4">
+      <!-- New tenants chart -->
+      <div class="col-lg-7">
+        <div class="stat-card p-4">
+          <h6 class="fw-semibold mb-3 text-white">New Tenants — Last 30 Days</h6>
+          <canvas id="tenantChart" height="130"></canvas>
+        </div>
+      </div>
+      <!-- Top tenants -->
+      <div class="col-lg-5">
+        <div class="stat-card p-4">
+          <h6 class="fw-semibold mb-3 text-white">Top Tenants by Leads</h6>
+          {% for tenant, lead_count in top_tenants %}
+          <div class="d-flex justify-content-between align-items-center mb-2 small">
+            <a href="/superadmin/tenant/{{ tenant.id }}" class="text-info text-decoration-none">{{ tenant.slug }}</a>
+            <div>
+              <span class="badge badge-{{ tenant.status }} px-2 py-1 me-1 rounded-pill small">{{ tenant.status }}</span>
+              <span class="text-muted">{{ lead_count }} leads</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent tenants -->
+    <div class="stat-card p-4">
+      <h6 class="fw-semibold mb-3 text-white">Recent Tenants</h6>
+      <table class="table table-sm align-middle">
+        <thead><tr><th>Slug</th><th>Status</th><th>Plan</th><th>Fee %</th><th>Created</th><th></th></tr></thead>
+        <tbody class="small">
+          {% for t in recent_tenants %}
+          <tr>
+            <td><a href="/superadmin/tenant/{{ t.id }}" class="text-info text-decoration-none fw-semibold">{{ t.slug }}</a></td>
+            <td><span class="badge badge-{{ t.status }} px-2 py-1 rounded-pill">{{ t.status }}</span></td>
+            <td>{{ t.platform_plan }}</td>
+            <td>{{ t.platform_fee_pct }}%</td>
+            <td class="text-muted">{{ t.created_at.strftime('%b %d, %Y') if t.created_at }}</td>
+            <td><a href="/superadmin/tenant/{{ t.id }}" class="btn btn-outline-secondary btn-sm py-0">View</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+Chart.defaults.color = '#64748b';
+new Chart(document.getElementById('tenantChart'), {
+  type: 'bar',
+  data: {
+    labels: {{ tenant_daily_labels | tojson }},
+    datasets: [{ label:'New Tenants', data: {{ tenant_daily_data | tojson }},
+      backgroundColor:'#3b82f6', borderRadius:4 }]
+  },
+  options: { responsive:true, plugins:{legend:{display:false}},
+    scales:{ y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:'#1e293b'}},
+             x:{grid:{color:'#1e293b'}} } }
+});
+</script>
+</body>
+</html>

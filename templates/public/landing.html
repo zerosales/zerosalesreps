@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}{{ config.name }} — {{ config.tagline }}{% endblock %}
+{% block body %}
+
+<!-- Nav -->
+<nav class="navbar navbar-light bg-white border-bottom py-3">
+  <div class="container">
+    {% if config.logo_url %}
+      <img src="{{ config.logo_url }}" height="36" alt="{{ config.name }}"/>
+    {% else %}
+      <span class="navbar-brand fw-bold fs-4">{{ config.name }}</span>
+    {% endif %}
+    <a href="#pricing" class="btn btn-primary btn-sm">See Pricing</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="py-5 bg-light">
+  <div class="container py-4 text-center">
+    <h1 class="display-4 fw-bold mb-3">{{ config.tagline }}</h1>
+    <p class="lead text-muted mb-4 mx-auto" style="max-width:600px">
+      Stop losing money to {{ config.pain_point }}. {{ config.name }} gives you
+      everything you need to stay ahead — automatically.
+    </p>
+
+    <!-- Signup form -->
+    <div class="card shadow-sm mx-auto" style="max-width:480px">
+      <div class="card-body p-4">
+        <h5 class="mb-3">Start your free trial — no credit card needed</h5>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for cat, msg in messages %}
+            <div class="alert alert-{{ 'danger' if cat == 'error' else cat }} py-2">{{ msg }}</div>
+          {% endfor %}
+        {% endwith %}
+        <form action="/signup" method="POST">
+          <input type="hidden" name="tool" value="{{ tool }}"/>
+          <div class="row g-2 mb-2">
+            <div class="col"><input class="form-control" name="first_name" placeholder="First name"/></div>
+            <div class="col"><input class="form-control" name="last_name" placeholder="Last name"/></div>
+          </div>
+          <input class="form-control mb-3" type="email" name="email" placeholder="Your email address" required/>
+          <button class="btn btn-primary w-100 py-2 fw-semibold" type="submit">
+            Get Free Access →
+          </button>
+        </form>
+        <p class="text-muted small mt-2 mb-0">Join thousands of users. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+{% if config.features %}
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-5">Everything you need in one place</h2>
+    <div class="row g-4">
+      {% for f in config.features %}
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 shadow-sm p-3">
+          <div class="card-body">
+            <div class="fs-2 mb-2 text-primary"><i class="bi bi-check-circle-fill"></i></div>
+            <h5 class="fw-semibold">{{ f.title }}</h5>
+            <p class="text-muted small mb-0">{{ f.description }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Testimonials -->
+{% if config.testimonials %}
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-5">What our users say</h2>
+    <div class="row g-4 justify-content-center">
+      {% for t in config.testimonials %}
+      <div class="col-md-5">
+        <div class="card shadow-sm p-4 h-100">
+          <p class="fst-italic mb-3">"{{ t.text }}"</p>
+          <div class="fw-semibold">— {{ t.name }}, {{ t.location }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Pricing -->
+{% if config.pricing %}
+<section class="py-5" id="pricing">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-2">Simple, transparent pricing</h2>
+    <p class="text-center text-muted mb-5">Cancel anytime. No hidden fees.</p>
+    <div class="row g-4 justify-content-center">
+      {% for p in config.pricing %}
+      <div class="col-md-4">
+        <div class="card shadow-sm h-100 {% if loop.last %}border-primary{% endif %}">
+          {% if loop.last %}<div class="card-header bg-primary text-white text-center fw-bold py-2">Most Popular</div>{% endif %}
+          <div class="card-body p-4 text-center">
+            <h4 class="fw-bold">{{ p.plan }}</h4>
+            <div class="display-5 fw-bold my-3 text-primary">{{ p.price }}</div>
+            <ul class="list-unstyled text-start mb-4">
+              {% for feat in p.features %}
+              <li class="mb-1"><i class="bi bi-check2 text-success me-2"></i>{{ feat }}</li>
+              {% endfor %}
+            </ul>
+            <a href="/checkout?tool={{ tool }}&plan={{ p.plan|lower }}" class="btn btn-primary w-100">
+              Get Started
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Footer CTA -->
+<section class="py-5 bg-primary text-white text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-3">Ready to stop worrying about {{ config.pain_point }}?</h2>
+    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="btn btn-light btn-lg fw-semibold">
+      Start Free Today →
+    </a>
+  </div>
+</section>
+
+<footer class="py-4 text-center text-muted small bg-light">
+  <div class="container">
+    &copy; {{ config.company }} ·
+    <a href="/unsubscribe/na" class="text-muted">Unsubscribe</a>
+  </div>
+</footer>
+
+{% endblock %}

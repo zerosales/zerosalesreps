@@ -1,0 +1,34 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}"But what if it doesn't work for me?" — answered{% endblock %}
+{% block body %}
+<h2>Let's address the hesitation, {{ lead.first_name or 'there' }}</h2>
+
+<p>We hear this a lot. And it's a fair question. So let's be direct.</p>
+
+<div class="feature-box">
+  <strong>❓ "I'm not tech-savvy enough."</strong><br/>
+  {{ config.name }} was built for busy people, not developers. If you can use email, you can use {{ config.name }}. Setup takes under 10 minutes.
+</div>
+
+<div class="feature-box">
+  <strong>❓ "I've tried tools like this before."</strong><br/>
+  Most tools are built for big teams with big budgets. {{ config.name }} is purpose-built to solve <em>{{ config.pain_point }}</em> — nothing more, nothing less. That focus is what makes it work.
+</div>
+
+<div class="feature-box">
+  <strong>❓ "What if I don't see results?"</strong><br/>
+  That's why we have a free trial — no credit card, no risk. If {{ config.name }} doesn't deliver value in your trial period, you've lost nothing.
+</div>
+
+<div class="feature-box">
+  <strong>❓ "Is it worth the price?"</strong><br/>
+  How much is {{ config.pain_point }} costing you right now? Most users find {{ config.name }} pays for itself in the first week.
+</div>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Try It Free — No Card Needed →</a>
+</div>
+
+<p>Still have a question? Just hit reply. We respond to every email.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

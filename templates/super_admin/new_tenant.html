@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>New Tenant</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body{background:#0f172a;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif}
+    .sidebar{width:220px;min-height:100vh;background:#1e293b}
+    .sidebar .nav-link{color:#94a3b8;padding:.6rem 1.2rem;border-radius:6px}
+    .sidebar .nav-link:hover,.sidebar .nav-link.active{color:#fff;background:#334155}
+    .card-dark{background:#1e293b;border:none;border-radius:12px}
+    .form-control,.form-select{background:#0f172a!important;color:#e2e8f0!important;border-color:#334155!important}
+    .form-label{color:#94a3b8;font-size:.8rem;font-weight:600}
+  </style>
+</head>
+<body>
+<div class="d-flex">
+  <div class="sidebar d-flex flex-column p-3 gap-1">
+    <div class="fw-bold text-white mb-4 px-2 fs-5">⚡ SuperAdmin</div>
+    <a href="/superadmin/" class="nav-link"><i class="bi bi-grid me-2"></i>Overview</a>
+    <a href="/superadmin/tenants" class="nav-link"><i class="bi bi-buildings me-2"></i>Tenants</a>
+    <a href="/superadmin/tenant/new" class="nav-link active">+ New Tenant</a>
+  </div>
+
+  <div class="flex-grow-1 p-4" style="max-width:700px">
+    <a href="/superadmin/tenants" class="btn btn-outline-secondary btn-sm mb-3">← Back</a>
+    <h4 class="fw-bold mb-4 text-white">Create New Tenant</h4>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="alert alert-{{ cat }} py-2 small">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <div class="card-dark p-4">
+      <form method="POST">
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Tenant Slug (subdomain) *</label>
+            <input type="text" name="slug" class="form-control" placeholder="e.g. home360" required pattern="[a-z0-9\-]+"/>
+            <div class="form-text text-muted small">Lowercase letters, numbers, hyphens only</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Tool / Company Name *</label>
+            <input type="text" name="name" class="form-control" placeholder="e.g. Home360" required/>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Tagline</label>
+            <input type="text" name="tagline" class="form-control" placeholder="One-line value proposition"/>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Pain Point (what you solve)</label>
+            <input type="text" name="pain_point" class="form-control" placeholder="e.g. missing home maintenance tasks"/>
+          </div>
+        </div>
+
+        <hr style="border-color:#334155"/>
+        <h6 class="text-white mb-3">Admin User</h6>
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Admin Email *</label>
+            <input type="email" name="admin_email" class="form-control" required/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Admin Password</label>
+            <input type="password" name="admin_password" class="form-control" placeholder="Leave blank to auto-generate"/>
+          </div>
+        </div>
+
+        <hr style="border-color:#334155"/>
+        <h6 class="text-white mb-3">Platform Billing</h6>
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <label class="form-label">Platform Plan</label>
+            <select name="platform_plan" class="form-select">
+              {% for p in plans %}
+              <option>{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Platform Fee %</label>
+            <input type="number" name="fee_pct" class="form-control" value="5" min="0" max="50" step="0.5"/>
+            <div class="form-text text-muted small">% of tenant revenue collected by the platform</div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 fw-semibold">Create Tenant</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

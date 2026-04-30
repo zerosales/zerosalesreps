@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Welcome, Customer! — {{ config.name }}{% endblock %}
+{% block body %}
+<nav class="navbar navbar-light bg-white border-bottom py-3">
+  <div class="container">
+    {% if config.logo_url %}
+      <img src="{{ config.logo_url }}" height="36" alt="{{ config.name }}"/>
+    {% else %}
+      <span class="navbar-brand fw-bold fs-4">{{ config.name }}</span>
+    {% endif %}
+  </div>
+</nav>
+
+<section class="py-5">
+  <div class="container py-4 text-center" style="max-width:560px">
+    <div class="mb-4" style="font-size:56px">🎉</div>
+    <h1 class="fw-bold mb-2">Payment confirmed!</h1>
+    <p class="lead text-muted mb-4">
+      Welcome to {{ config.name }}. Your subscription is now active.
+    </p>
+
+    <div class="card shadow-sm p-4 mb-4 text-start">
+      <h5 class="fw-semibold mb-3">You're all set. Here's what to do next:</h5>
+      <p class="mb-2">📧 <strong>Check your email</strong> — we've sent your receipt and onboarding guide</p>
+      <p class="mb-2">🚀 <strong>Log in to your dashboard</strong> — everything is already set up</p>
+      <p class="mb-2">🎯 <strong>Complete your profile</strong> — takes 5 minutes</p>
+      <p class="mb-0">💬 <strong>Need help?</strong> Reply to your welcome email — we respond fast</p>
+    </div>
+
+    <a href="{{ config.urls.app_url or '/' }}" class="btn btn-primary btn-lg fw-semibold px-5 mb-3">
+      Go to My Dashboard →
+    </a>
+    <br/>
+    <p class="text-muted small mt-2">
+      A receipt has been sent to your email address.
+      Manage your subscription any time from your account settings.
+    </p>
+  </div>
+</section>
+{% endblock %}

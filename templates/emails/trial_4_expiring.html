@@ -1,0 +1,34 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Your {{ config.name }} trial expires in 3 days{% endblock %}
+{% block body %}
+<h2>Don't lose your progress, {{ lead.first_name or 'there' }}</h2>
+
+<p>Your {{ config.name }} free trial expires in <strong>3 days</strong>.</p>
+
+<p>Everything you've set up, every result you've seen — it all continues seamlessly when you upgrade. No disruption. No re-setup. Just uninterrupted access.</p>
+
+<div class="feature-box">
+  <strong>What happens if you don't upgrade:</strong><br/>
+  Your account pauses. {{ config.pain_point }} comes back. You'll have to start from scratch if you come back later.
+</div>
+
+<p><strong>What happens when you do upgrade:</strong><br/>
+  ✅ Everything keeps running automatically<br/>
+  ✅ You lock in the best available rate<br/>
+  ✅ You stay protected from {{ config.pain_point }} going forward
+</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Upgrade Before My Trial Ends →</a>
+</div>
+
+{% if config.pricing %}
+<p><strong>Choose your plan:</strong></p>
+{% for p in config.pricing %}
+<p>🔹 <strong>{{ p.plan }}</strong> — {{ p.price }}{% if loop.last %} <em>(most popular)</em>{% endif %}</p>
+{% endfor %}
+{% endif %}
+
+<p>No long contracts. Cancel anytime.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

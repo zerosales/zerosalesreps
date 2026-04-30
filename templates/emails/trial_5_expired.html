@@ -1,0 +1,28 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Your trial has ended — pick up where you left off{% endblock %}
+{% block body %}
+<h2>Your trial is over — but you don't have to stop, {{ lead.first_name or 'there' }}</h2>
+
+<p>Your {{ config.name }} free trial has ended. Your account is paused — but all your settings and data are saved.</p>
+
+<p>Upgrading takes less than 2 minutes, and everything picks up right where you left off.</p>
+
+<div class="feature-box">
+  <strong>Why upgrade now?</strong><br/>
+  Without {{ config.name }}, {{ config.pain_point }} goes right back to being your problem. With it, the system handles it automatically — every day, without you thinking about it.
+</div>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Reactivate My Account →</a>
+</div>
+
+{% if config.pricing %}
+<p><strong>Plans starting from:</strong></p>
+{% for p in config.pricing[:1] %}
+<p>🔹 <strong>{{ p.plan }}</strong> — {{ p.price }} — <a href="{{ cta_url }}">Get started</a></p>
+{% endfor %}
+{% endif %}
+
+<p>If cost is a concern, reply to this email. We'll find a solution that works for you.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

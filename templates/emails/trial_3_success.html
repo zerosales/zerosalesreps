@@ -1,0 +1,33 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Halfway through your trial — how's it going?{% endblock %}
+{% block body %}
+<h2>Checking in, {{ lead.first_name or 'there' }}</h2>
+
+<p>You're at the halfway point of your {{ config.name }} trial. This is the moment where most users have their "aha" moment — when {{ config.pain_point }} stops feeling like a problem and starts feeling like it's under control.</p>
+
+<p>Have you had yours yet?</p>
+
+<p>If yes — amazing. Here's what to do next: <strong>lock in your rate by upgrading before your trial ends</strong>. Current subscribers get the best pricing we offer.</p>
+
+<p>If you haven't gotten there yet — let's fix that right now.</p>
+
+<div class="feature-box">
+  <strong>The fastest path to results:</strong><br/>
+  1. Log in now (takes 30 seconds)<br/>
+  2. Check the dashboard — you should already have data<br/>
+  3. If something looks off, hit reply and we'll walk you through it live
+</div>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Continue My Trial →</a>
+</div>
+
+{% if config.pricing %}
+<p><strong>Ready to upgrade? Here's what's available:</strong></p>
+{% for p in config.pricing %}
+<p>🔹 <strong>{{ p.plan }}</strong> — {{ p.price }}</p>
+{% endfor %}
+{% endif %}
+
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

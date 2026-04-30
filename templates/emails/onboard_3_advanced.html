@@ -1,0 +1,37 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}Going deeper: advanced features you'll love{% endblock %}
+{% block body %}
+<h2>You've got the basics — here's what's next, {{ lead.first_name or 'there' }}</h2>
+
+<p>By now you've had a chance to use {{ config.name }} for a couple of weeks. You've seen the core value. Now let's talk about the features that separate good users from great ones.</p>
+
+{% if config.features %}
+<p><strong>Advanced features worth exploring:</strong></p>
+{% for f in config.features %}
+<div class="feature-box">
+  <strong>{{ f.title }}</strong><br/>
+  {{ f.description }}
+</div>
+{% endfor %}
+{% else %}
+<div class="feature-box">
+  <strong>Automation Rules</strong><br/>
+  Set up triggers that make {{ config.name }} act automatically — no manual input required. Once configured, it runs 24/7.
+</div>
+<div class="feature-box">
+  <strong>Reporting & Insights</strong><br/>
+  Dig into the data to see exactly where {{ config.pain_point }} was affecting you — and how much better things are now.
+</div>
+<div class="feature-box">
+  <strong>Integrations</strong><br/>
+  Connect {{ config.name }} to the other tools you use for a seamless workflow.
+</div>
+{% endif %}
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Explore Advanced Features →</a>
+</div>
+
+<p>Questions about any of these? Reply and ask — happy to help.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "emails/base_email.html" %}
+{% block subject %}We miss you — is {{ config.name }} still working for you?{% endblock %}
+{% block body %}
+<h2>Hey {{ lead.first_name or 'there' }} — it's been a while</h2>
+
+<p>We noticed you haven't been active in {{ config.name }} recently. That's okay — life gets busy. But we wanted to check in.</p>
+
+<p>Is {{ config.pain_point }} still something you're dealing with? Because {{ config.name }} is still here, still working, and your account is still active.</p>
+
+<div class="feature-box">
+  <strong>What's new since you last logged in:</strong><br/>
+  → Performance improvements across the board<br/>
+  → Cleaner dashboard with better insights<br/>
+  → Faster results on {{ config.pain_point }}-related tasks
+</div>
+
+<p>It takes less than 2 minutes to log back in and see what you've been missing. No re-setup required — everything is exactly where you left it.</p>
+
+<div class="cta-wrap">
+  <a href="{{ cta_url }}" class="cta-btn">Log Back In →</a>
+</div>
+
+<p>Or — if something went wrong and that's why you stopped using it, just reply. We'll fix it.</p>
+<p>— The {{ config.name }} Team</p>
+{% endblock %}

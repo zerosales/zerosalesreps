@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Email Sequences — {{ tenant.name }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    :root{--primary:{{ tenant.get_config('primary_color','#4F46E5') }}}
+    body{background:#f8f9fa;font-family:'Segoe UI',system-ui,sans-serif}
+    .sidebar{width:220px;min-height:100vh;background:#1e293b}
+    .sidebar .nav-link{color:#94a3b8;padding:.6rem 1.2rem;border-radius:6px}
+    .sidebar .nav-link:hover,.sidebar .nav-link.active{color:#fff;background:#334155}
+    .step-badge{background:#e0e7ff;color:#3730a3;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+  </style>
+</head>
+<body>
+<div class="d-flex">
+  <div class="sidebar d-flex flex-column p-3 gap-1">
+    <div class="fw-bold text-white mb-4 px-2">⚡ {{ tenant.name }}</div>
+    <a href="/dashboard/" class="nav-link"><i class="bi bi-grid me-2"></i>Overview</a>
+    <a href="/dashboard/leads" class="nav-link"><i class="bi bi-people me-2"></i>Leads</a>
+    <a href="/dashboard/sequences" class="nav-link active"><i class="bi bi-envelope me-2"></i>Sequences</a>
+    <a href="/dashboard/settings" class="nav-link"><i class="bi bi-gear me-2"></i>Settings</a>
+    <div class="mt-auto">
+      <a href="/dashboard/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
+    </div>
+  </div>
+
+  <div class="flex-grow-1 p-4">
+    <h4 class="fw-bold mb-1">Email Sequences</h4>
+    <p class="text-muted mb-4">These run automatically. Leads progress through sequences based on their status.</p>
+
+    <div class="row g-4">
+      {% set seq_info = {
+        'nurture':     ('New Leads → Trial',      'bg-primary', 'Sent to every new signup. Goal: get them to start a free trial.'),
+        'trial':       ('Trial → Customer',        'bg-warning text-dark', 'Sent to leads who started a trial. Goal: convert to paid.'),
+        'onboarding':  ('New Customers',           'bg-success', 'Sent after first payment. Goal: activate and retain.'),
+        'reengagement':('Inactive Leads',          'bg-danger',  'Sent to leads inactive for 30+ days. Goal: re-activate.'),
+      } %}
+      {% for seq_name, steps in sequences.items() %}
+      {% set info = seq_info.get(seq_name, (seq_name, 'bg-secondary', '')) %}
+      <div class="col-lg-6">
+        <div class="card shadow-sm">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+              <span class="badge {{ info[1] }} me-2">{{ seq_name }}</span>
+              <strong class="small">{{ info[0] }}</strong>
+            </div>
+            <span class="badge bg-light text-dark">{{ steps|length }} emails</span>
+          </div>
+          <div class="card-body p-3">
+            <p class="text-muted small mb-3">{{ info[2] }}</p>
+            {% for step in steps %}
+            <div class="d-flex gap-3 mb-3 align-items-start">
+              <div class="step-badge">{{ step.step }}</div>
+              <div>
+                <div class="fw-semibold small">{{ step.subject.replace('{tool_name}', tenant.name).replace('{pain_point}', tenant.get_config('pain_point','...')) }}</div>
+                <div class="text-muted" style="font-size:11px">Day {{ step.day_offset }} · {{ step.template }}</div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="alert alert-info mt-4 small">
+      <i class="bi bi-info-circle me-2"></i>
+      Sequences run automatically every 15 minutes. To send a one-off email, go to a lead's detail page and use "Send Email Manually."
+    </div>
+  </div>
+</div>
+</body>
+</html>
