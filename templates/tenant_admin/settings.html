@@ -84,6 +84,23 @@
       </form>
     </div>
 
+    <!-- Integrations -->
+    <div class="card shadow-sm mb-4 p-4">
+      <h6 class="fw-semibold mb-1">Integrations</h6>
+      <p class="text-muted small mb-3">API keys for external services that power the growth engine.</p>
+      <form method="POST">
+        <input type="hidden" name="action" value="integrations"/>
+        <div class="mb-3">
+          <label class="form-label small fw-semibold">Hunter.io API Key</label>
+          <input type="text" name="hunter_api_key" class="form-control font-monospace"
+                 value="{{ tenant.hunter_api_key or '' }}"
+                 placeholder="Paste your Hunter.io API key here"/>
+          <div class="form-text">Used by the autonomous prospecting engine to find leads daily. Get yours at <a href="https://hunter.io/api-keys" target="_blank">hunter.io/api-keys</a>.</div>
+        </div>
+        <button class="btn btn-primary">Save Integrations</button>
+      </form>
+    </div>
+
     <!-- Stripe Connect -->
     <div class="card shadow-sm mb-4 p-4">
       <h6 class="fw-semibold mb-2">Stripe Connect</h6>

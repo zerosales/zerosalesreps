@@ -341,6 +341,12 @@ def settings():
             except json.JSONDecodeError:
                 flash("Invalid JSON.", "danger")
 
+        elif action == "integrations":
+            hunter_key = request.form.get("hunter_api_key", "").strip()
+            tenant.hunter_api_key = hunter_key or None
+            db.session.commit()
+            flash("Integration settings saved.", "success")
+
         elif action == "password":
             new_pw = request.form.get("new_password", "")
             if len(new_pw) >= 8:
